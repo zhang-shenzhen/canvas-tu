@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+
+        }
+    </style>
+</head>
+<body>
+
+<div id="box"></div>
+
+</body>
+<script src="https://cdn.bootcss.com/konva/2.1.3/konva.js"></script>
+
+<script>
+
+    var w = window.innerWidth;
+    var h = window.innerHeight;
+    var data = [
+        {name: '前端', value: '.8', color: 'green'},
+        {name: 'PHP', value: '.3', color: 'blue'},
+        {name: 'Java', value: '.7', color: 'red'},
+        {name: 'UI', value: '.9', color: 'orange'},
+        {name: 'IOS', value: '.4', color: 'purple'},
+        {name: 'Android', value: '.6', color: 'pink'}
+    ];
+
+    //创建舞台对象
+    var stage = new Konva.Stage({
+        container: 'box',    //container 用来容纳舞台的容器
+        width: w,//整个浏览器宽
+        height: h//整个浏览器的高
+    });
+    var layer = new Konva.Layer();  //创建一个层
+    stage.add(layer);               //把层添加到舞台
+
+    // 创建图形
+    // 底线
+    var baseLine = new Konva.Line({
+        points: [100, h - 100, w - 100, h - 100],
+        strokeWidth: 3,    //描边的宽度
+        stroke: 'green'   //描边的颜色
+    });
+    layer.add(baseLine);    //把绘制的图形添加到图层上
+    layer.draw();
+
+    var a = ((w - 200) - (data.length * 100)) / (data.length + 1);
+    for (var i = 0; i < data.length; i++) {
+        var reat = new Konva.Rect({
+            x: i * a + i * 100 + a + 100,
+            y: h - 100,
+            width: 100,      //设置外部矩形的宽度为外部矩形的一半
+            height: 0,
+            fill: data[i].color,      //填充颜色
+            opacity: 8,
+            cornerRadius: 20
+
+        });
+        layer.add(reat);    //把绘制的图形添加到图层上
+
+        reat.to({
+            duration: 1,
+            y: h - 100 - 800 * data[i].value,
+            height: 800 * data[i].value
+
+        });
+
+        var textBottom = new Konva.Text({
+            x: i * a + i * 100 + a + 100,
+            y: h - 50,
+            width: 100,
+            align: 'center',
+            text: data[i].name,
+            fontSize: 20,
+            fill: data[i].color
+        });
+        layer.add(textBottom);
+
+        var textTop = new Konva.Text({
+            x:i * a + i * 100 + a + 100,
+            y:h - 120,
+            width:100,
+            align:'center',
+            text:data[i].value * 100 + '%',
+            fontSize:20,
+            fill:data[i].color
+        });
+        layer.add(textTop);
+        textTop.to({
+            duration: 1,
+            y:  h - 100 - 800 * data[i].value - 30,
+            height: 800 * data[i].value
+
+        });
+
+
+    }
+
+    layer.draw();
+
+
+    // $('.round').click(function(){
+    //     if(num == 0){
+    //
+    //     }
+    // })
+
+
+</script>
+
+</html>
